@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,6 +14,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
 import it.dsgroup.comunities.R;
+import it.dsgroup.comunities.main.models.AdapterGruppi;
 import it.dsgroup.comunities.main.models.Gruppi;
 import it.dsgroup.comunities.main.utilities.FireBaseConnection;
 import it.dsgroup.comunities.main.utilities.JasonParser;
@@ -18,11 +22,15 @@ import it.dsgroup.comunities.main.utilities.TaskCompletetion;
 
 public class VisualizationActivity extends AppCompatActivity implements TaskCompletetion{
 
+    private AdapterGruppi adapterGruppi;
     private String utenteAttivo;
     private TextView prova;
     private TaskCompletetion delegato;
     private ProgressDialog progressDialog;
     private Gruppi gruppi;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager lm;
+    private CardView cardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +42,8 @@ public class VisualizationActivity extends AppCompatActivity implements TaskComp
         delegato = this;
 
         restCallGruppi(delegato);
+
+
     }
 
     public void restCallGruppi (final TaskCompletetion delegation){
@@ -72,6 +82,12 @@ public class VisualizationActivity extends AppCompatActivity implements TaskComp
         }
         else {
             Toast.makeText(getApplicationContext(),"SONO QUI",Toast.LENGTH_LONG).show();
+            // istanzio l'array
+            recyclerView = findViewById(R.id.recyclerGruppi);
+            lm = new LinearLayoutManager(getApplicationContext());
+            recyclerView.setLayoutManager(lm);
+            adapterGruppi = new AdapterGruppi(gruppi.getGruppi());
+            recyclerView.setAdapter(adapterGruppi);
         }
 
     }

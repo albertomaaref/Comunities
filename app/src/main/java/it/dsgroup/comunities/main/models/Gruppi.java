@@ -20,4 +20,8 @@ public class Gruppi {
     public void setGruppi(ArrayList<String> gruppi) {
         this.gruppi = gruppi;
     }
+
+    public int getCountGruppi (){
+        return this.gruppi.size();
+    }
 }
