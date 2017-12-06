@@ -1,5 +1,7 @@
 package it.dsgroup.comunities.main.models;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import it.dsgroup.comunities.R;
+import it.dsgroup.comunities.main.activities.DetailActivity;
 
 /**
  * Created by utente9.academy on 06/12/2017.
@@ -16,12 +19,13 @@ import it.dsgroup.comunities.R;
 
 public class AdapterGruppi extends RecyclerView.Adapter<AdapterGruppi.GruppiHolder> {
 
-
+    private Context context;
     private Gruppi gruppi;
 
-    public AdapterGruppi(ArrayList<String> groups) {
+    public AdapterGruppi(ArrayList<String> groups, Context context) {
         this.gruppi = new Gruppi();
         this.gruppi.setGruppi(groups);
+        this.context = context;
 
 
     }
@@ -42,9 +46,18 @@ public class AdapterGruppi extends RecyclerView.Adapter<AdapterGruppi.GruppiHold
     }
 
     @Override
-    public void onBindViewHolder(GruppiHolder holder, int position) {
-        String s = gruppi.getGruppi().get(position);
+    public void onBindViewHolder(final GruppiHolder holder, int position) {
+        final String s = gruppi.getGruppi().get(position);
         holder.textGruppo.setText(s);
+        holder.textGruppo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(context, DetailActivity.class);
+                i.putExtra("nomeGruppo",s);
+                context.startActivity(i);
+            }
+        });
 
     }
 

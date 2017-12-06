@@ -81,12 +81,12 @@ public class VisualizationActivity extends AppCompatActivity implements TaskComp
             Toast.makeText(getApplicationContext(),"error nel caricamento dei gruppi",Toast.LENGTH_LONG).show();
         }
         else {
-            Toast.makeText(getApplicationContext(),"SONO QUI",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"SONO QUI",Toast.LENGTH_LONG).show();
             // istanzio l'array
             recyclerView = findViewById(R.id.recyclerGruppi);
             lm = new LinearLayoutManager(getApplicationContext());
             recyclerView.setLayoutManager(lm);
-            adapterGruppi = new AdapterGruppi(gruppi.getGruppi());
+            adapterGruppi = new AdapterGruppi(gruppi.getGruppi(),this);
             recyclerView.setAdapter(adapterGruppi);
         }
 

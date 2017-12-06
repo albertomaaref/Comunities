@@ -18,6 +18,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*RelativeLayout mr = (RelativeLayout) findViewById(R.id.mainLayout);
+        mr.setVisibility(View.GONE);*/
+
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String utenteAttivo = prefs.getString("utenteAttivo","");
 
@@ -34,5 +37,9 @@ public class MainActivity extends AppCompatActivity {
             i.putExtra("utenteAttivo",utenteAttivo);
             startActivity(i);
         }
+
+        finish();
     }
+
+
 }
