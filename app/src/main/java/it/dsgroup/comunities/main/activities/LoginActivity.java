@@ -1,7 +1,10 @@
 package it.dsgroup.comunities.main.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +28,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletetion
     private Gruppi gruppiUtenteattivo;
     private Button bLogin;
     private TaskCompletetion delegato;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,8 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletetion
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         bLogin = (Button) findViewById(R.id.bLogin);
-
+        prefs = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        delegato = this;
         // listener per il bottone del login
         View.OnClickListener temporary = new View.OnClickListener() {
             @Override
@@ -63,8 +68,15 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletetion
 
         else {
             if (result.equals(password.getText().toString())){
-                // codice per andare all'attività della visualizzazione dei gruppi
-                Toast.makeText(getApplicationContext(),"posso andare alla seconda attività",Toast.LENGTH_LONG).show();
+                // codice per andare all'attività della visualizzazione dei gruppi e salvo in locale questo utente
+                //Toast.makeText(getApplicationContext(),"posso andare alla seconda attività",Toast.LENGTH_LONG).show();
+
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("utenteAttivo",username.getText().toString());
+                editor.commit();
+                Intent i = new Intent(getApplicationContext(),VisualizationActivity.class);
+                i.putExtra("utenteAttivo",username.getText().toString());
+                startActivity(i);
             }
             else {
                 // nel caso la password è errata
@@ -75,15 +87,22 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletetion
     }
 
     public void restCall (final TaskCompletetion delegation){
-        progressDialog = new ProgressDialog(getApplicationContext());
+        progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.show();
 
         FireBaseConnection.get("utenti/"+username.getText().toString()+".json", null, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String s = new String(responseBody);
-                String password = JasonParser.getPassword(s);
-                tasksToDoAtCompletionStep(password);
+                int as = s.length();
+                if (s.equals("null")){
+                    delegation.tasksToDoAtCompletionStep("error");
+                }
+                else {
+                    String password = JasonParser.getPassword(s);
+                    delegation.tasksToDoAtCompletionStep(password);
+                }
+
 
 
             }
