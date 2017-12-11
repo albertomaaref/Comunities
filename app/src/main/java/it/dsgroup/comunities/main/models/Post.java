@@ -1,10 +1,12 @@
 package it.dsgroup.comunities.main.models;
 
+import java.io.Serializable;
+
 /**
  * Created by utente9.academy on 06/12/2017.
  */
 
-public class Post {
+public class Post implements Serializable {
     private String titolo;
     private String autore;
     private String data;

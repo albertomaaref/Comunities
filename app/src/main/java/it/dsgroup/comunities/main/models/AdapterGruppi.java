@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -20,21 +20,21 @@ import it.dsgroup.comunities.main.activities.DetailActivity;
 public class AdapterGruppi extends RecyclerView.Adapter<AdapterGruppi.GruppiHolder> {
 
     private Context context;
-    private Gruppi gruppi;
+    private Comunity comunity;
 
     public AdapterGruppi(ArrayList<String> groups, Context context) {
-        this.gruppi = new Gruppi();
-        this.gruppi.setGruppi(groups);
+        this.comunity = new Comunity();
+        this.comunity.setGruppi(groups);
         this.context = context;
 
 
     }
 
     public static class GruppiHolder extends RecyclerView.ViewHolder{
-        private TextView textGruppo;
+        private Button textGruppo;
         public GruppiHolder(View itemView) {
             super(itemView);
-            textGruppo = (TextView) itemView.findViewById(R.id.bTextGroup);
+            textGruppo =  itemView.findViewById(R.id.bTextGroup);
         }
     }
 
@@ -47,7 +47,7 @@ public class AdapterGruppi extends RecyclerView.Adapter<AdapterGruppi.GruppiHold
 
     @Override
     public void onBindViewHolder(final GruppiHolder holder, int position) {
-        final String s = gruppi.getGruppi().get(position);
+        final String s = comunity.getGruppi().get(position);
         holder.textGruppo.setText(s);
         holder.textGruppo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +63,7 @@ public class AdapterGruppi extends RecyclerView.Adapter<AdapterGruppi.GruppiHold
 
     @Override
     public int getItemCount() {
-        return gruppi.getCountGruppi();
+        return comunity.getCountGruppi();
     }
 
 

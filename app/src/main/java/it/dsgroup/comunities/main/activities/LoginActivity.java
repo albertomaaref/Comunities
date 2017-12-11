@@ -15,7 +15,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
 import it.dsgroup.comunities.R;
-import it.dsgroup.comunities.main.models.Gruppi;
+import it.dsgroup.comunities.main.models.Comunity;
 import it.dsgroup.comunities.main.utilities.FireBaseConnection;
 import it.dsgroup.comunities.main.utilities.JasonParser;
 import it.dsgroup.comunities.main.utilities.TaskCompletetion;
@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletetion
     private EditText username;
     private EditText password;
     private ProgressDialog progressDialog;
-    private Gruppi gruppiUtenteattivo;
+    private Comunity comunityUtenteattivo;
     private Button bLogin;
     private TaskCompletetion delegato;
     private SharedPreferences prefs;
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletetion
         };
         bLogin.setOnClickListener(temporary);
 
-        gruppiUtenteattivo = new Gruppi();
+        comunityUtenteattivo = new Comunity();
 
         // fare il rest call per richamare la password
 

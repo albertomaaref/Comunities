@@ -1,15 +1,16 @@
 package it.dsgroup.comunities.main.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by utente9.academy on 06/12/2017.
  */
 
-public class Gruppi {
+public class Comunity implements Serializable {
     private ArrayList<String> gruppi;
 
-    public Gruppi() {
+    public Comunity() {
         this.gruppi = new ArrayList<>();
     }
 

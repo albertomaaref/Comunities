@@ -15,8 +15,9 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
 import it.dsgroup.comunities.R;
 import it.dsgroup.comunities.main.models.AdapterGruppi;
-import it.dsgroup.comunities.main.models.Gruppi;
+import it.dsgroup.comunities.main.models.Comunity;
 import it.dsgroup.comunities.main.utilities.FireBaseConnection;
+import it.dsgroup.comunities.main.utilities.InternalStorage;
 import it.dsgroup.comunities.main.utilities.JasonParser;
 import it.dsgroup.comunities.main.utilities.TaskCompletetion;
 
@@ -27,7 +28,7 @@ public class VisualizationActivity extends AppCompatActivity implements TaskComp
     private TextView prova;
     private TaskCompletetion delegato;
     private ProgressDialog progressDialog;
-    private Gruppi gruppi;
+    private Comunity comunity;
     private RecyclerView recyclerView;
     private LinearLayoutManager lm;
     private CardView cardView;
@@ -38,10 +39,18 @@ public class VisualizationActivity extends AppCompatActivity implements TaskComp
         setContentView(R.layout.activity_visualization);
         Intent i = getIntent();
         utenteAttivo = i.getStringExtra("utenteAttivo");
-        gruppi = new Gruppi();
+        //comunity = new Comunity();
         delegato = this;
+        // controllo se in locale c'è già la comunity dell'utente attivo
+        comunity = (Comunity) InternalStorage.readObject(getApplicationContext(),"comunity");
+        if (comunity == null){
+            comunity = new Comunity();
+            restCallGruppi(delegato);
+        }
+        else {
+            setRecyclerView();
+        }
 
-        restCallGruppi(delegato);
 
 
     }
@@ -59,7 +68,7 @@ public class VisualizationActivity extends AppCompatActivity implements TaskComp
 
                 }
                 else {
-                    gruppi.setGruppi(JasonParser.getGruppi(s));
+                    comunity.setGruppi(JasonParser.getGruppi(s));
                     delegation.tasksToDoAtCompletionStep("success");
                 }
             }
@@ -78,17 +87,25 @@ public class VisualizationActivity extends AppCompatActivity implements TaskComp
         progressDialog.cancel();
 
         if (result.toLowerCase().equals("error")){
-            Toast.makeText(getApplicationContext(),"error nel caricamento dei gruppi",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"error nel caricamento dei comunity",Toast.LENGTH_LONG).show();
         }
         else {
             //Toast.makeText(getApplicationContext(),"SONO QUI",Toast.LENGTH_LONG).show();
-            // istanzio l'array
-            recyclerView = findViewById(R.id.recyclerGruppi);
-            lm = new LinearLayoutManager(getApplicationContext());
-            recyclerView.setLayoutManager(lm);
-            adapterGruppi = new AdapterGruppi(gruppi.getGruppi(),this);
-            recyclerView.setAdapter(adapterGruppi);
+
+            // salvo la comunity in locale
+            InternalStorage.writeObject(getApplicationContext(),"comunity",comunity);
+            // setto la recycler
+            setRecyclerView();
+
         }
 
+    }
+
+    public void setRecyclerView (){
+        recyclerView = findViewById(R.id.recyclerGruppi);
+        lm = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(lm);
+        adapterGruppi = new AdapterGruppi(comunity.getGruppi(),this);
+        recyclerView.setAdapter(adapterGruppi);
     }
 }
