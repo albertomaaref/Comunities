@@ -39,11 +39,13 @@ public class VisualizationActivity extends AppCompatActivity implements TaskComp
         setContentView(R.layout.activity_visualization);
         Intent i = getIntent();
         utenteAttivo = i.getStringExtra("utenteAttivo");
+        recyclerView = findViewById(R.id.recyclerGruppi);
+        lm = new LinearLayoutManager(getApplicationContext());
         //comunity = new Comunity();
         delegato = this;
         // controllo se in locale c'è già la comunity dell'utente attivo
         comunity = (Comunity) InternalStorage.readObject(getApplicationContext(),"comunity");
-        if (comunity == null){
+        if ( comunity == null){
             comunity = new Comunity();
             restCallGruppi(delegato);
         }
@@ -102,10 +104,14 @@ public class VisualizationActivity extends AppCompatActivity implements TaskComp
     }
 
     public void setRecyclerView (){
-        recyclerView = findViewById(R.id.recyclerGruppi);
-        lm = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(lm);
-        adapterGruppi = new AdapterGruppi(comunity.getGruppi(),this);
-        recyclerView.setAdapter(adapterGruppi);
+        if (comunity.getGruppi() == null){
+            Toast.makeText(getApplicationContext(),"Lista dei gruppi è vuota",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            recyclerView.setLayoutManager(lm);
+            adapterGruppi = new AdapterGruppi(comunity.getGruppi(),this);
+            recyclerView.setAdapter(adapterGruppi);
+        }
+
     }
 }

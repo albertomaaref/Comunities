@@ -81,6 +81,7 @@ public class JasonParser {
                     JSONObject singoloPost= postiPubblicati.getJSONObject(chiave);
                     Iterator clefs = singoloPost.keys();
                     Post post = new Post();
+                    post.setId(chiave);
                     while (clefs.hasNext()){
                         String clef = (String) clefs.next();
                         if (clef.toLowerCase().equals("titolo")) post.setTitolo(singoloPost.getString(clef));
@@ -99,5 +100,25 @@ public class JasonParser {
             e.printStackTrace();
         }
         return posts;
+    }
+
+    public static String getBodyPost (String url){
+        String body="";
+        try {
+            JSONObject post = new JSONObject(url);
+            Iterator keys = post.keys();
+            while (keys.hasNext()){
+                String key = (String) keys.next();
+                if (key.equals("corpo")){
+                    return post.getString(key);
+                }
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

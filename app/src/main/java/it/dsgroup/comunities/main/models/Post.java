@@ -10,6 +10,27 @@ public class Post implements Serializable {
     private String titolo;
     private String autore;
     private String data;
+    private String corpo;
+
+    public String getCorpo() {
+        return corpo;
+    }
+
+    public void setCorpo(String corpo) {
+        this.corpo = corpo;
+    }
+
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
 
     public Post() {
     }

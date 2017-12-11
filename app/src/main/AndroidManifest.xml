@@ -21,7 +21,8 @@
         </activity>
         <activity android:name=".main.activities.LoginActivity" />
         <activity android:name=".main.activities.VisualizationActivity" />
-        <activity android:name=".main.activities.DetailActivity"></activity>
+        <activity android:name=".main.activities.DetailActivity" />
+        <activity android:name=".main.activities.PostBodyActivity"></activity>
     </application>
 
 </manifest>

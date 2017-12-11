@@ -11,13 +11,12 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import java.util.ArrayList;
-
 import cz.msebera.android.httpclient.Header;
 import it.dsgroup.comunities.R;
 import it.dsgroup.comunities.main.models.AdapterPosts;
-import it.dsgroup.comunities.main.models.Post;
+import it.dsgroup.comunities.main.models.Comunity;
 import it.dsgroup.comunities.main.utilities.FireBaseConnection;
+import it.dsgroup.comunities.main.utilities.InternalStorage;
 import it.dsgroup.comunities.main.utilities.JasonParser;
 import it.dsgroup.comunities.main.utilities.TaskCompletetion;
 
@@ -26,11 +25,13 @@ public class DetailActivity extends AppCompatActivity implements TaskCompletetio
     private String nomeGruppo;
     private TextView tNomeGruppo;
     private ProgressDialog progressDialog;
-    private ArrayList<Post> posti;
+    private String previousGroup="";
+    private Comunity comunity;
     private TaskCompletetion delegato;
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerViewPosts;
     private AdapterPosts adapterPosts;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +46,18 @@ public class DetailActivity extends AppCompatActivity implements TaskCompletetio
         nomeGruppo = i.getStringExtra("nomeGruppo");
         tNomeGruppo = findViewById(R.id.tNomeGruppo);
         tNomeGruppo.setText(nomeGruppo);
-        posti = new ArrayList<>();
+
         delegato = this;
-        restCallPosts(delegato);
+        comunity = (Comunity) InternalStorage.readObject(DetailActivity.this,"comunity");
+        previousGroup = (String) InternalStorage.readObject(DetailActivity.this,"previousGroup");
+        boolean isEmpty = nomeGruppo.equals(previousGroup);
+        if (comunity.getPosti() == null || !isEmpty ){
+            restCallPosts(delegato);
+        }
+        else {
+            setRecyclerPosts();
+        }
+
 
 
     }
@@ -60,8 +70,14 @@ public class DetailActivity extends AppCompatActivity implements TaskCompletetio
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String s = new String (responseBody);
-                posti = JasonParser.getPosti(s);
-                delegation.tasksToDoAtCompletionStep("success");
+                if (s.equals("null")){
+                    delegation.tasksToDoAtCompletionStep("error");
+                }
+                else {
+                    comunity.setPosti(JasonParser.getPosti(s));
+                    delegation.tasksToDoAtCompletionStep("success");
+                }
+
             }
 
             @Override
@@ -76,11 +92,26 @@ public class DetailActivity extends AppCompatActivity implements TaskCompletetio
         progressDialog.dismiss();
         progressDialog.cancel();
         if (result.toLowerCase().equals("error")) {
-            Toast.makeText(getApplicationContext(),"errore caricamento post",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"errore caricamento post, è possibile che questo gruppo non abbia post",Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
-            adapterPosts = new AdapterPosts(DetailActivity.this,posti);
+            //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+            // salvo la comunity con i post dell'utente attivo in locale
+            InternalStorage.writeObject(getApplicationContext(),"comunity",comunity);
+            // scrivo il nome del gruppo in locale
+            InternalStorage.writeObject(getApplicationContext(),"previousGroup",nomeGruppo);
+            setRecyclerPosts();
+        }
+
+    }
+
+    public void setRecyclerPosts() {
+        // ulteriore controllo se la chiamata rest mi restituisce un nullo
+        if (comunity.getPosti() == null){
+            Toast.makeText(getApplicationContext(),"Lista dei post vuota",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            adapterPosts = new AdapterPosts(DetailActivity.this,comunity);
             recyclerViewPosts.setLayoutManager(layoutManager);
             recyclerViewPosts.setAdapter(adapterPosts);
         }
