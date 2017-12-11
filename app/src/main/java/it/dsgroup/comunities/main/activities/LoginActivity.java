@@ -86,6 +86,11 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletetion
 
     }
 
+    @Override
+    public void tasksToDoAtCompletionStep(String result, String date) {
+
+    }
+
     public void restCall (final TaskCompletetion delegation){
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.show();

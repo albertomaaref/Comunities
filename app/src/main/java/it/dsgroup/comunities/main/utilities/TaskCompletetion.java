@@ -7,4 +7,7 @@ package it.dsgroup.comunities.main.utilities;
 public interface TaskCompletetion {
 
     void tasksToDoAtCompletionStep(String result);
+
+    void tasksToDoAtCompletionStep(String result , String date);
+
 }

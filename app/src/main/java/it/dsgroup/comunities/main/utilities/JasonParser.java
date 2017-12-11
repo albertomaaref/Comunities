@@ -73,24 +73,27 @@ public class JasonParser {
             Iterator keys = gruppo.keys();
             while (keys.hasNext()){
                 String key = (String) keys.next();
-                JSONObject postiPubblicati = gruppo.getJSONObject(key);
-                Iterator chiavi = postiPubblicati.keys();
+                if (key.toLowerCase().equals("posti")){
+                    JSONObject postiPubblicati = gruppo.getJSONObject(key);
+                    Iterator chiavi = postiPubblicati.keys();
 
-                while (chiavi.hasNext()){
-                    String chiave = (String) chiavi.next();
-                    JSONObject singoloPost= postiPubblicati.getJSONObject(chiave);
-                    Iterator clefs = singoloPost.keys();
-                    Post post = new Post();
-                    post.setId(chiave);
-                    while (clefs.hasNext()){
-                        String clef = (String) clefs.next();
-                        if (clef.toLowerCase().equals("titolo")) post.setTitolo(singoloPost.getString(clef));
-                        if (clef.toLowerCase().equals("autore")) post.setAutore(singoloPost.getString(clef));
-                        if (clef.toLowerCase().equals("data")) post.setData(singoloPost.getString(clef));
+                    while (chiavi.hasNext()){
+                        String chiave = (String) chiavi.next();
+                        JSONObject singoloPost= postiPubblicati.getJSONObject(chiave);
+                        Iterator clefs = singoloPost.keys();
+                        Post post = new Post();
+                        post.setId(chiave);
+                        while (clefs.hasNext()){
+                            String clef = (String) clefs.next();
+                            if (clef.toLowerCase().equals("titolo")) post.setTitolo(singoloPost.getString(clef));
+                            if (clef.toLowerCase().equals("autore")) post.setAutore(singoloPost.getString(clef));
+                            if (clef.toLowerCase().equals("data")) post.setData(singoloPost.getString(clef));
+                        }
+                        posts.add(post);
+
                     }
-                    posts.add(post);
-
                 }
+
 
 
 
@@ -116,6 +119,25 @@ public class JasonParser {
             }
 
         } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static  String getData(String url){
+        try {
+            JSONObject gruppo = new JSONObject(url);
+            Iterator keys = gruppo.keys();
+            while (keys.hasNext()){
+                String key = (String) keys.next();
+                if (key.toLowerCase().equals("lastdate")){
+                    return gruppo.getString(key);
+                }
+            }
+
+        }
+        catch (JSONException e) {
             e.printStackTrace();
         }
 

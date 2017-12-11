@@ -103,6 +103,11 @@ public class VisualizationActivity extends AppCompatActivity implements TaskComp
 
     }
 
+    @Override
+    public void tasksToDoAtCompletionStep(String result, String date) {
+
+    }
+
     public void setRecyclerView (){
         if (comunity.getGruppi() == null){
             Toast.makeText(getApplicationContext(),"Lista dei gruppi è vuota",Toast.LENGTH_SHORT).show();

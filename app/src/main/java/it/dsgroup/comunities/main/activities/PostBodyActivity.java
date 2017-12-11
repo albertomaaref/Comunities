@@ -99,4 +99,9 @@ public class PostBodyActivity extends AppCompatActivity implements TaskCompletet
         }
 
     }
+
+    @Override
+    public void tasksToDoAtCompletionStep(String result, String date) {
+
+    }
 }

@@ -2,13 +2,22 @@ package it.dsgroup.comunities.main.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by utente9.academy on 06/12/2017.
  */
 
 public class Comunity implements Serializable {
+
+    private Date lastModificationDate;
     private ArrayList<String> gruppi;
+    private ArrayList<Post> posti;
+
+    public Comunity() {
+        this.gruppi = new ArrayList<>();
+        //this.lastModificationDate = new Date();
+    }
 
     public ArrayList<Post> getPosti() {
         return posti;
@@ -16,12 +25,6 @@ public class Comunity implements Serializable {
 
     public void setPosti(ArrayList<Post> posti) {
         this.posti = posti;
-    }
-
-    private ArrayList<Post> posti;
-
-    public Comunity() {
-        this.gruppi = new ArrayList<>();
     }
 
     public ArrayList<String> getGruppi() {
@@ -56,4 +59,13 @@ public class Comunity implements Serializable {
         }
         return null;
     }
+
+    public Date getLastModificationDate() {
+        return lastModificationDate;
+    }
+
+    public void setLastModificationDate(Date lastModificationDate) {
+        this.lastModificationDate = lastModificationDate;
+    }
+
 }
