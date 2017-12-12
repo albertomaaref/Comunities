@@ -68,4 +68,13 @@ public class Comunity implements Serializable {
         this.lastModificationDate = lastModificationDate;
     }
 
+    public Boolean isInTheGroupList  (String nomeGruppo){
+        for (String gruppo: gruppi)
+
+              {
+                  if (nomeGruppo.toLowerCase().equals(gruppo.toLowerCase()))
+                      return true;
+        }return false;
+    }
+
 }

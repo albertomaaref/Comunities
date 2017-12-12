@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "430711434870",
+    "firebase_url": "https://comunities-bc5e8.firebaseio.com",
+    "project_id": "comunities-bc5e8",
+    "storage_bucket": "comunities-bc5e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430711434870:android:1465377fc12de646",
+        "android_client_info": {
+          "package_name": "it.dsgroup.comunities"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "430711434870-n1jvfu33e9c0ucb7g7dhtktm91a9v6pe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmG5uE319DFjtpsAa-tpCmt_G-x57NbvM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -50,6 +50,7 @@ public class DetailActivity extends AppCompatActivity implements TaskCompletetio
         layoutManager = new LinearLayoutManager(getApplicationContext());
         Intent i = getIntent();
         nomeGruppo = i.getStringExtra("nomeGruppo");
+        boolean notification = i.getBooleanExtra("notifica",false);
         tNomeGruppo = findViewById(R.id.tNomeGruppo);
         tNomeGruppo.setText(nomeGruppo);
 
@@ -57,14 +58,15 @@ public class DetailActivity extends AppCompatActivity implements TaskCompletetio
         comunity = (Comunity) InternalStorage.readObject(DetailActivity.this,"comunity");
         previousGroup = (String) InternalStorage.readObject(DetailActivity.this,"previousGroup");
         boolean isEmpty = nomeGruppo.equals(previousGroup);
-        if (comunity.getPosti() == null || !isEmpty || comunity.getPosti().size()==0){
+        if (comunity.getPosti() == null || !isEmpty || comunity.getPosti().size()==0|| notification){
             restCallPosts(delegato);
         }
         else {
             setRecyclerPosts();
         }
         // controllo se c'è ultima data di modifica dei post
-        if (comunity.getLastModificationDate().equals(null)){
+        //String prova = new String(""+comunity.getLastModificationDate());
+        if (comunity.getLastModificationDate() == null){
             comunity.setLastModificationDate(Calendar.getInstance().getTime());
         }
 
@@ -120,8 +122,9 @@ public class DetailActivity extends AppCompatActivity implements TaskCompletetio
     @Override
     public void tasksToDoAtCompletionStep(String result, String date) {
         Date parsedDate = DataUtilities.convertStringToDate(date);
+        restCallPosts(delegato);
         if (parsedDate.after(comunity.getLastModificationDate())){
-            restCallPosts(delegato);
+            //restCallPosts(delegato);
         }
     }
 

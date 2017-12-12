@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
 import it.dsgroup.comunities.R;
+import it.dsgroup.comunities.main.utilities.PushNotification;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,9 +34,12 @@ public class MainActivity extends AppCompatActivity {
 
         else {
             // vado alla activity della visualizzazione dei gruppi
+            Intent iPush = new Intent(this, PushNotification.class);
+            startService(iPush);
             Intent i = new Intent(getApplicationContext(),VisualizationActivity.class);
             i.putExtra("utenteAttivo",utenteAttivo);
             startActivity(i);
+
         }
 
         finish();

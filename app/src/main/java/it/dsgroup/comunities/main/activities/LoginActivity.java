@@ -18,6 +18,7 @@ import it.dsgroup.comunities.R;
 import it.dsgroup.comunities.main.models.Comunity;
 import it.dsgroup.comunities.main.utilities.FireBaseConnection;
 import it.dsgroup.comunities.main.utilities.JasonParser;
+import it.dsgroup.comunities.main.utilities.PushNotification;
 import it.dsgroup.comunities.main.utilities.TaskCompletetion;
 
 public class LoginActivity extends AppCompatActivity implements TaskCompletetion {
@@ -77,6 +78,9 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletetion
                 Intent i = new Intent(getApplicationContext(),VisualizationActivity.class);
                 i.putExtra("utenteAttivo",username.getText().toString());
                 startActivity(i);
+                // qui attivo il service di notification
+                Intent iPush = new Intent(this, PushNotification.class);
+                startService(iPush);
             }
             else {
                 // nel caso la password è errata
