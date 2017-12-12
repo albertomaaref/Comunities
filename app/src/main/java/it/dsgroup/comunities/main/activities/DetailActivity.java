@@ -108,7 +108,7 @@ public class DetailActivity extends AppCompatActivity implements TaskCompletetio
         }
         else {
             //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
-            // salvo la comunity con i post dell'utente attivo in locale
+            //   salvo la comunity con i post dell'utente attivo in locale
             InternalStorage.writeObject(getApplicationContext(),"comunity",comunity);
             // scrivo il nome del gruppo in locale
             InternalStorage.writeObject(getApplicationContext(),"previousGroup",nomeGruppo);
